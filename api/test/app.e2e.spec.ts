@@ -9,7 +9,7 @@ describe('API (e2e)', () => {
 
   it('répond sous le préfixe /api, base prête', async () => {
     const reponse = await request(app).get('/api').expect(200);
-    expect(reponse.body).toEqual({ statut: 'ok', migrations: 1 });
+    expect(reponse.body).toEqual({ statut: 'ok', migrations: 2 });
   });
 
   it.each(['/__version__', '/api/__version__'])('sert la version sur %s, en repli « dev » hors image', async (chemin) => {

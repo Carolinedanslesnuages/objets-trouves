@@ -5,7 +5,11 @@ import HomeView from '../HomeView.vue'
 import { violationsAccessibilite } from '@/__tests__/accessibilite'
 
 const monter = () => {
-  const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/', component: HomeView }] })
+  const router = createRouter({ history: createMemoryHistory(), routes: [
+      { path: '/', component: HomeView },
+      { path: '/objets-trouves/nouveau', component: HomeView },
+    ],
+  })
   return mount(HomeView, { global: { plugins: [router] }, attachTo: document.body })
 }
 
