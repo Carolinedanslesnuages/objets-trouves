@@ -12,4 +12,4 @@
 | Lancer le front | `cd front && npm run dev` |
 
 ## Stories réalisées
-_(aucune pour l'instant)_
+- #2 — Enregistrer un objet trouvé : formulaire (description, lieu, date), contrôles de saisie, confirmation, conservation en base. Fiche : `revues/story-2-enregistrer-un-objet-trouve.md`.

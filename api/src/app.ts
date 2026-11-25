@@ -1,5 +1,6 @@
 import express, { type Express, type NextFunction, type Request, type Response } from 'express';
 import type { DatabaseSync } from 'node:sqlite';
+import { routesObjetsTrouves } from './routes/objets-trouves.ts';
 import { lireVersion } from './version.ts';
 
 /**
@@ -19,6 +20,8 @@ export function creerApp(base: DatabaseSync): Express {
     const migrations = base.prepare('SELECT COUNT(*) AS nombre FROM migrations').get();
     reponse.json({ statut: 'ok', migrations: Number(migrations?.nombre ?? 0) });
   });
+
+  app.use('/api/objets-trouves', routesObjetsTrouves(base));
 
   app.use('/api', (_requete, reponse) => {
     reponse.status(404).json({ erreur: 'Adresse inconnue' });
