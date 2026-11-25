@@ -1,0 +1,4 @@
+node_modules
+.env
+# Base SQLite locale (données de développement, jamais commitées)
+donnees/
