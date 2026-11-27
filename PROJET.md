@@ -13,3 +13,4 @@
 
 ## Stories réalisées
 - #2 — Enregistrer un objet trouvé : formulaire (description, lieu, date), contrôles de saisie, confirmation, conservation en base. Fiche : `revues/story-2-enregistrer-un-objet-trouve.md`.
+- #3 — Consulter la liste des objets trouvés : la page d'accueil affiche les objets déposés (description, lieu, date), du plus récent au plus ancien, avec un message clair si aucun objet n'est enregistré. Fiche : `revues/story-3-consulter-la-liste-des-objets-trouves.md`.
