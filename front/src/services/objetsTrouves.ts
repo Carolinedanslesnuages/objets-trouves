@@ -1,5 +1,9 @@
 import type { ErreursObjetTrouve, ObjetTrouveSaisi } from './objetsTrouvesValidation'
 
+export interface ObjetTrouveListe extends ObjetTrouveSaisi {
+  id: number
+}
+
 export type ResultatEnregistrement =
   | { reussi: true }
   | { reussi: false; erreurs: ErreursObjetTrouve; message: string }
@@ -20,4 +24,12 @@ export async function enregistrerObjetTrouve(saisie: ObjetTrouveSaisi): Promise<
   } catch {
     return { reussi: false, erreurs: {}, message: MESSAGE_ERREUR_GENERALE }
   }
+}
+
+/** Recharge la liste des objets trouvés, classée du plus récent au plus ancien ; ne lève jamais d'exception. */
+export async function listerObjetsTrouves(): Promise<ObjetTrouveListe[]> {
+  const reponse = await fetch('/api/objets-trouves')
+  if (!reponse.ok) return []
+  const corps = (await reponse.json().catch(() => ({}))) as { objets?: ObjetTrouveListe[] }
+  return Array.isArray(corps.objets) ? corps.objets : []
 }

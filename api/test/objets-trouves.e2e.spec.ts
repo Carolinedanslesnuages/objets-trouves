@@ -54,4 +54,29 @@ describe('POST /api/objets-trouves (e2e)', () => {
     const reponse = await request(creerApp(base)).post('/api/objets-trouves').send({ ...saisieValide, lieu: piege }).expect(201);
     expect(lireObjetTrouve(base, reponse.body.id)?.lieu).toBe(piege);
   });
+
+  it('renvoie la liste du plus récent au plus ancien, sans être connecté', async () => {
+    const base = ouvrirBase(':memory:');
+    await request(creerApp(base))
+      .post('/api/objets-trouves')
+      .send({ ...saisieValide, dateDecouverte: '2026-11-10' })
+      .expect(201);
+    await request(creerApp(base))
+      .post('/api/objets-trouves')
+      .send({ ...saisieValide, description: 'Portefeuille noir', lieu: 'Salle des fêtes', dateDecouverte: '2026-11-20' })
+      .expect(201);
+
+    const reponse = await request(creerApp(base)).get('/api/objets-trouves').expect(200);
+    expect(reponse.body).toEqual({
+      objets: [
+        { id: expect.any(Number), description: 'Portefeuille noir', lieu: 'Salle des fêtes', dateDecouverte: '2026-11-20' },
+        { id: expect.any(Number), description: 'Parapluie bleu', lieu: 'Hall d’accueil', dateDecouverte: '2026-11-10' },
+      ],
+    });
+  });
+
+  it('renvoie une liste vide quand aucun objet n’est enregistré', async () => {
+    const reponse = await request(creerApp(ouvrirBase(':memory:'))).get('/api/objets-trouves').expect(200);
+    expect(reponse.body).toEqual({ objets: [] });
+  });
 });

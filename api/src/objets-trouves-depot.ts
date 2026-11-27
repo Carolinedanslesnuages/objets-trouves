@@ -26,3 +26,18 @@ export function lireObjetTrouve(base: DatabaseSync, identifiant: number): ObjetT
     dateDecouverte: String(ligne.date_decouverte),
   };
 }
+
+/** Liste les objets conservés, du plus récent au plus ancien (date de découverte, puis enregistrement). */
+export function listerObjetsTrouves(base: DatabaseSync): ObjetTrouve[] {
+  const lignes = (base
+    .prepare(
+      'SELECT id, description, lieu, date_decouverte FROM objets_trouves ORDER BY date_decouverte DESC, enregistre_le DESC',
+    )
+    .all() ?? []) as Array<{ id: number | bigint; description: string; lieu: string; date_decouverte: string }>;
+  return lignes.map((ligne) => ({
+    id: Number(ligne.id),
+    description: String(ligne.description),
+    lieu: String(ligne.lieu),
+    dateDecouverte: String(ligne.date_decouverte),
+  }));
+}
