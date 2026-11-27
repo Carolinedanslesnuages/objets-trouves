@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import type { DatabaseSync } from 'node:sqlite';
-import { enregistrerObjetTrouve } from '../objets-trouves-depot.ts';
+import { enregistrerObjetTrouve, listerObjetsTrouves } from '../objets-trouves-depot.ts';
 import { validerObjetTrouve } from '../objets-trouves-validation.ts';
 
 /** Routes des objets trouvés, montées sous /api/objets-trouves. */
 export function routesObjetsTrouves(base: DatabaseSync): Router {
   const routeur = Router();
+
+  routeur.get('/', (_requete, reponse) => {
+    reponse.json({ objets: listerObjetsTrouves(base) });
+  });
 
   routeur.post('/', (requete, reponse) => {
     const verification = validerObjetTrouve(requete.body);
